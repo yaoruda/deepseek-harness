@@ -1,0 +1,28 @@
+.root { width: 100%; min-width: 0; overflow: hidden; border: 1px solid var(--dsw-alias-border-secondary); border-radius: 12px; background: var(--dsw-alias-bg-base); }
+.header { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 12px; }
+.title { overflow: hidden; font-size: 14px; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
+.modes { display: flex; gap: 4px; }
+.mode { min-height: 32px; padding: 4px 10px; border: 0; border-radius: 8px; background: var(--dsw-alias-bg-module-platform); color: var(--dsw-alias-label-secondary); cursor: pointer; }
+.mode[data-active='true'] { background: var(--dsw-alias-state-business-primary); color: white; }
+.body { display: grid; grid-template-columns: minmax(190px, 34%) minmax(0, 1fr); min-height: 360px; border-top: 1px solid var(--dsw-alias-border-secondary); }
+.list { overflow: auto; max-height: 420px; padding: 8px; }
+.hotel { display: grid; grid-template-columns: 28px minmax(0, 1fr); width: 100%; gap: 8px; padding: 9px 8px; border: 0; border-radius: 8px; background: transparent; color: inherit; text-align: left; cursor: pointer; }
+.hotel:hover, .hotel[data-active='true'] { background: var(--dsw-alias-bg-module-platform); }
+.index { display: flex; width: 24px; height: 24px; align-items: center; justify-content: center; border-radius: 50%; background: var(--dsw-alias-state-business-primary); color: white; font-size: 12px; }
+.name { display: block; font-size: 13px; font-weight: 600; line-height: 18px; }
+.address, .route, .diagnostic { display: block; margin-top: 2px; color: var(--dsw-alias-label-tertiary); font-size: 12px; line-height: 16px; }
+.diagnostic { color: var(--dsw-alias-state-warning); }
+.map { position: relative; min-width: 0; min-height: 360px; overflow: hidden; background: #e8ecef; }
+.map :global(.maplibregl-canvas) { position: absolute; inset: 0; }
+.map :global(.maplibregl-marker) { position: absolute; top: 0; left: 0; transition: opacity 0.2s; will-change: transform; }
+.marker { box-sizing: border-box; display: flex; width: 28px; height: 28px; padding: 0; align-items: center; justify-content: center; border: 2px solid white; border-radius: 50%; background: #2f6feb; color: white; font: 600 12px/1 system-ui; box-shadow: 0 2px 8px #0005; cursor: pointer; }
+.marker[data-active='true'] { width: 34px; height: 34px; background: #e8590c; }
+.destination { width: 20px; height: 20px; border: 3px solid white; border-radius: 4px; background: #111827; box-shadow: 0 2px 8px #0005; }
+.attribution { display: flex; flex-wrap: wrap; gap: 8px; padding: 6px 10px; font-size: 10px; }
+.attribution a { color: var(--dsw-alias-label-tertiary); }
+@media (max-width: 680px) {
+  .body { display: flex; flex-direction: column-reverse; }
+  .map { min-height: 280px; }
+  .list { max-height: 250px; }
+  .hotel { min-height: 48px; }
+}

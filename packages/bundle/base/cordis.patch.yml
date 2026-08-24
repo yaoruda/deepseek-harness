@@ -369,6 +369,15 @@
       config:
         allowParallelInProgress: true
 
+    # Free, low-volume hotel address maps. Deployments may replace every
+    # provider endpoint with a self-hosted compatible service.
+    - id: tool-hotel-map
+      name: '@deepseek-ai/dsh-tool-hotel-map'
+      config:
+        userAgent: 'deepseek-harness-hotel-map/0.1 (+https://ruda.work)'
+        maxHotels: 20
+        geocodeIntervalMs: 1100
+
     # Persisted same-session goals reach the model and the slash menu here; the
     # domain, driver, and `/goal` command are above.
     - id: tool-goal
