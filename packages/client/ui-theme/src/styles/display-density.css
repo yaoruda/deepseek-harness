@@ -1,0 +1,53 @@
+body {
+  --dsh-density-assistant-font-size: 16px;
+  --dsh-density-assistant-line-height: 28px;
+  --dsh-density-user-font-size: 16px;
+  --dsh-density-user-line-height: 24px;
+  --dsh-density-message-gap: 16px;
+  --dsh-density-block-gap: 16px;
+  --dsh-density-actions-gap: 16px;
+  --dsh-density-bubble-padding-block: 10px;
+  --dsh-density-bubble-padding-inline: 16px;
+  --dsh-density-table-font-size: 15px;
+  --dsh-density-table-line-height: 25px;
+  --dsh-density-table-padding-block: 10px;
+  --dsh-density-table-padding-inline: 16px;
+  --dsh-density-table-min-width: 100px;
+  --dsh-density-table-code-font-size: 13px;
+}
+
+body[data-dsh-display-density='compact'] {
+  --dsh-density-assistant-font-size: 14px;
+  --dsh-density-assistant-line-height: 22px;
+  --dsh-density-user-font-size: 14px;
+  --dsh-density-user-line-height: 22px;
+  --dsh-density-message-gap: 12px;
+  --dsh-density-block-gap: 12px;
+  --dsh-density-actions-gap: 12px;
+  --dsh-density-bubble-padding-block: 8px;
+  --dsh-density-bubble-padding-inline: 14px;
+  --dsh-density-table-font-size: 13px;
+  --dsh-density-table-line-height: 20px;
+  --dsh-density-table-padding-block: 7px;
+  --dsh-density-table-padding-inline: 9px;
+  --dsh-density-table-min-width: 72px;
+  --dsh-density-table-code-font-size: 12px;
+}
+
+body[data-dsh-display-density='extra-compact'] {
+  --dsh-density-assistant-font-size: 13px;
+  --dsh-density-assistant-line-height: 20px;
+  --dsh-density-user-font-size: 13px;
+  --dsh-density-user-line-height: 20px;
+  --dsh-density-message-gap: 10px;
+  --dsh-density-block-gap: 10px;
+  --dsh-density-actions-gap: 10px;
+  --dsh-density-bubble-padding-block: 7px;
+  --dsh-density-bubble-padding-inline: 12px;
+  --dsh-density-table-font-size: 12px;
+  --dsh-density-table-line-height: 18px;
+  --dsh-density-table-padding-block: 6px;
+  --dsh-density-table-padding-inline: 7px;
+  --dsh-density-table-min-width: 64px;
+  --dsh-density-table-code-font-size: 11px;
+}

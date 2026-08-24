@@ -22,9 +22,11 @@
   background: var(--dsw-specific-bubble);
   border-radius: 22px;
   /* 44px single-line bubble: 24 line + 10 vertical padding each side. */
-  padding: 10px 16px;
-  font-size: 16px;
-  line-height: 24px;
+  padding:
+    var(--dsh-density-bubble-padding-block, 10px)
+    var(--dsh-density-bubble-padding-inline, 16px);
+  font-size: var(--dsh-density-user-font-size, 16px);
+  line-height: var(--dsh-density-user-line-height, 24px);
   color: var(--dsw-alias-label-primary);
 }
 

@@ -100,7 +100,8 @@
     "tests/complex-history.perf.ts",
     "tests/pwsh-terminal.e2e.ts",
     "tests/workflow-run.e2e.ts",
-    "tests/pwa-recovery.e2e.ts"
+    "tests/pwa-recovery.e2e.ts",
+    "tests/mobile-display-density.e2e.ts"
   ],
   "references": [
     {

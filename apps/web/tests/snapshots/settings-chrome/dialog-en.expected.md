@@ -39,6 +39,11 @@
   - button "System" [pressed]:
     - img
     - text: System
+  - text: Display density Affects conversation text and tables on this device only.
+  - group "Display density":
+    - button "Standard" [pressed]
+    - button "Compact"
+    - button "Extra compact"
   - text: Enter behavior while busy Busy only; Cmd/Ctrl+Enter uses the other behavior
   - button "Queue":
     - text: Queue

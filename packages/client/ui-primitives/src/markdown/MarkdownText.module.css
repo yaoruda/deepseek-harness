@@ -6,6 +6,8 @@
   min-width: 0;
   overflow-wrap: anywhere;
   font: var(--dsw-font-markdown-base);
+  font-size: var(--dsh-markdown-base-font-size, var(--dsw-font-markdown-base-font-size));
+  line-height: var(--dsh-markdown-base-line-height, var(--dsw-font-markdown-base-line-height));
   color: var(--dsw-alias-label-primary);
 }
 
@@ -224,22 +226,30 @@
 
 .tableScroll th {
   text-align: start;
-  padding: 10px 16px;
+  padding:
+    var(--dsh-markdown-table-padding-block, 10px)
+    var(--dsh-markdown-table-padding-inline, 16px);
   border-bottom: 1px solid var(--dsw-alias-border-l3);
   border-top: none;
   font: var(--dsw-font-markdown-table-head);
+  font-size: var(--dsh-markdown-table-font-size, var(--dsw-font-markdown-table-head-font-size));
+  line-height: var(--dsh-markdown-table-line-height, var(--dsw-font-markdown-table-head-line-height));
   max-width: 320px;
   max-width: min(30vw, 320px);
-  min-width: 100px;
+  min-width: var(--dsh-markdown-table-min-width, 100px);
 }
 
 .tableScroll td {
-  padding: 10px 16px;
+  padding:
+    var(--dsh-markdown-table-padding-block, 10px)
+    var(--dsh-markdown-table-padding-inline, 16px);
   border-bottom: 1px solid var(--dsw-alias-border-l2);
   font: var(--dsw-font-markdown-table);
+  font-size: var(--dsh-markdown-table-font-size, var(--dsw-font-markdown-table-font-size));
+  line-height: var(--dsh-markdown-table-line-height, var(--dsw-font-markdown-table-line-height));
   max-width: 320px;
   max-width: min(30vw, 320px);
-  min-width: 100px;
+  min-width: var(--dsh-markdown-table-min-width, 100px);
 }
 
 .tableScroll th:first-child,
@@ -252,7 +262,7 @@
 }
 
 .tableScroll table code {
-  font-size: 13px;
+  font-size: var(--dsh-markdown-table-code-font-size, 13px);
 }
 
 .markdown > *:first-child,

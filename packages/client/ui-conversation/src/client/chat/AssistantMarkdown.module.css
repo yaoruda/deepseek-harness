@@ -6,15 +6,23 @@
 .root {
   display: flex;
   flex-direction: column;
-  font-size: 16px;
-  line-height: 28px;
+  font-size: var(--dsh-density-assistant-font-size, 16px);
+  line-height: var(--dsh-density-assistant-line-height, 28px);
   color: var(--dsw-alias-label-primary);
+  --dsh-markdown-base-font-size: var(--dsh-density-assistant-font-size, 16px);
+  --dsh-markdown-base-line-height: var(--dsh-density-assistant-line-height, 28px);
+  --dsh-markdown-table-font-size: var(--dsh-density-table-font-size, 15px);
+  --dsh-markdown-table-line-height: var(--dsh-density-table-line-height, 25px);
+  --dsh-markdown-table-padding-block: var(--dsh-density-table-padding-block, 10px);
+  --dsh-markdown-table-padding-inline: var(--dsh-density-table-padding-inline, 16px);
+  --dsh-markdown-table-min-width: var(--dsh-density-table-min-width, 100px);
+  --dsh-markdown-table-code-font-size: var(--dsh-density-table-code-font-size, 13px);
 }
 
 .body {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: var(--dsh-density-block-gap, 16px);
 }
 
 /* Wide markdown tables (the renderer's ≥4-column md-table-wide hook) span
@@ -52,7 +60,7 @@
 
 /* Finalized footer offset (figma 43:32997); chrome lives in MessageIconActions. */
 .actions {
-  margin-top: 16px;
+  margin-top: var(--dsh-density-actions-gap, 16px);
   /* Optical align with 28px icon hit targets that pad 6px past the glyph. */
   margin-left: -6px;
 }

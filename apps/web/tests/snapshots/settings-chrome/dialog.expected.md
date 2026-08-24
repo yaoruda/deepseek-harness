@@ -39,6 +39,11 @@
   - button "跟随系统" [pressed]:
     - img
     - text: 跟随系统
+  - text: 显示密度 仅影响当前设备上的会话文字和表格。
+  - group "显示密度":
+    - button "标准" [pressed]
+    - button "紧凑"
+    - button "超紧凑"
   - text: 繁忙时 Enter 键行为 仅在智能体运行时生效；Cmd/Ctrl+Enter 使用另一行为
   - button "排队发送":
     - text: 排队发送
