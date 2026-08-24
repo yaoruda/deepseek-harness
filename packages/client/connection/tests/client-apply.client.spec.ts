@@ -170,6 +170,28 @@ describe('connection client apply', () => {
     }
   })
 
+  it('publishes observable connection state and exposes immediate recovery', async () => {
+    ;(globalThis as Win).location = { hostname: 'localhost', search: '?fixture' }
+    const handle = await mount()
+    const states: Array<ReturnType<typeof handle.state.getSnapshot>> = []
+    const errorSpy = vi.spyOn(console, 'error').mockImplementation(() => undefined)
+    const stopThrowing = handle.state.subscribe(() => { throw new Error('state subscriber bug') })
+    const stopState = handle.state.subscribe(() => { states.push(handle.state.getSnapshot()) })
+    const loop = handle.start({}, { backoffBaseMs: 10_000, backoffMaxMs: 10_000, streamOpenTimeoutMs: 500 })
+    try {
+      await vi.waitFor(() => { expect(handle.state.getSnapshot()).toBe('connected') })
+      handle.recover()
+      await vi.waitFor(() => { expect(states).toEqual(['connected', 'reconnecting', 'connected']) })
+      expect(errorSpy).toHaveBeenCalledTimes(3)
+    } finally {
+      loop.stop()
+      stopThrowing()
+      stopState()
+      errorSpy.mockRestore()
+    }
+    expect(handle.state.getSnapshot()).toBeUndefined()
+  })
+
   it('WebApiClient keeps unary calls and respond on globalThis.fetch', async () => {
     ;(globalThis as Win).location = { hostname: 'localhost', search: '' }
     const handle = await mount()

@@ -938,6 +938,22 @@ export type SessionEvent<T extends SessionEventType = SessionEventType> = {
 
 来源：[`packages/workflow/tool-workflow/src/types.ts:47`](../packages/workflow/tool-workflow/src/types.ts)
 
+### `travel-map/*`
+
+<a id="travel-mapshow--log-only"></a>
+
+#### `travel-map/show` — log-only
+
+```ts persistence-catalog
+/**
+ * Records one complete hotel map after all provider requests settle.
+ * @param data - replayable markers, route outcomes, and attribution.
+ */
+'travel-map/show': TravelMapShowData
+```
+
+来源：[`packages/travel/tool-hotel-map/src/types.ts:61`](../packages/travel/tool-hotel-map/src/types.ts)
+
 ### `turn/*`
 
 <a id="turnend--log-only"></a>

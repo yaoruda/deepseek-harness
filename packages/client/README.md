@@ -25,6 +25,7 @@ The browser side of the dsh web GUI: shell boot, browser-host communication, sha
 | [`ui-conversation/`](ui-conversation/README.md) | Presents the active conversation and its input surface. |
 | [`ui-tool/`](ui-tool/README.md) | Composes Tool call trees and keyed per-Tool views. |
 | [`ui-workflow-run/`](ui-workflow-run/README.md) | Replays durable workflow runs as nested Chat disclosures with live-only child navigation. |
+| [`ui-connection-recovery/`](ui-connection-recovery/README.md) | Adds mobile and installed-app connection recovery to the frame overlay. |
 | [`ui-goal/`](ui-goal/README.md) | Presents and manages the current goal. |
 | [`ui-trajectory/`](ui-trajectory/README.md) | Presents alternate views of agent activity. |
 | [`ui-commands/`](ui-commands/README.md) | Provides session-aware command discovery and dispatch. |

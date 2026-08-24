@@ -2,5 +2,5 @@
 # side as of the last confirmed-consistent state. Both languages carry equal authority;
 # after editing either side, bring the other along and re-record with:
 #   pnpm run verify-translation-pairing --write .agents/notes/implemented/feature/2026-08-20-open-hotel-map-node.md
-2026-08-20-open-hotel-map-node.md: 178c9450bfcc19fd025d5dd670a477e924c92b86
-2026-08-20-open-hotel-map-node.zh.md: b2954e71aca59c100aa74b6ccb6537c18da12ae7
+2026-08-20-open-hotel-map-node.md: e61f0a1814ddecaf6c9145929d32b3f3e8e69599
+2026-08-20-open-hotel-map-node.zh.md: d915d6e1c9de8052baea9c59412ae71119668c5c

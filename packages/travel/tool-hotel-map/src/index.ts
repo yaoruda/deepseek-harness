@@ -13,12 +13,19 @@ export const inject = ['tools']
 
 /** Free-provider endpoints and operational bounds for the hotel map tool. */
 export interface Config {
+  /** Nominatim-compatible geocoding service root URL. */
   geocoderBaseUrl: string
+  /** OSRM-compatible driving route service root URL. */
   drivingBaseUrl: string
+  /** Transitous MOTIS-compatible public transport service root URL. */
   transitBaseUrl: string
+  /** Identifying HTTP User-Agent sent to community providers. */
   userAgent: string
+  /** Timeout applied independently to each provider request. */
   requestTimeoutMs: number
+  /** Minimum delay between uncached geocoding requests. */
   geocodeIntervalMs: number
+  /** Maximum hotels accepted by one tool call. */
   maxHotels: number
 }
 

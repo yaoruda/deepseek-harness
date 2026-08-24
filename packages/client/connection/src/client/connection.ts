@@ -62,7 +62,9 @@ export class ConnectionController {
   private generation = 0
   private attempt = 0
   private current: AbortController | null = null
+  private backoff: AbortController | null = null
   private running = false
+  private retryRequested = false
   private lastState: ConnectionState | null = null
   private readonly config: Required<ConnectionConfig>
 
@@ -86,6 +88,20 @@ export class ConnectionController {
     this.running = false
     this.current?.abort()
     this.current = null
+    this.backoff?.abort()
+    this.backoff = null
+  }
+
+  /**
+   * Retire the current generation or interrupt its retry delay. The single
+   * owner loop opens the replacement generation, so recovery cannot create a
+   * parallel pair of streams.
+   */
+  reconnect(): void {
+    if (!this.running) return
+    this.retryRequested = true
+    this.current?.abort()
+    this.backoff?.abort()
   }
 
   private backoffDelay(attempt: number): number {
@@ -161,10 +177,21 @@ export class ConnectionController {
       await failed
       if (!this.isRunning()) return
       this.emitState('reconnecting')
+      if (this.retryRequested) {
+        this.retryRequested = false
+        this.attempt = 0
+        continue
+      }
       this.attempt += 1
       console.warn(`[web-runtime] connection lost, retry #${this.attempt}`)
       const idle = new AbortController()
+      this.backoff = idle
       await sleep(this.backoffDelay(this.attempt), idle.signal)
+      if (this.backoff === idle) this.backoff = null
+      if (this.retryRequested) {
+        this.retryRequested = false
+        this.attempt = 0
+      }
     }
   }
 

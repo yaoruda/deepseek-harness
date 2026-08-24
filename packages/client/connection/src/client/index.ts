@@ -50,6 +50,14 @@ export interface HostDescriptionSource {
   subscribe(listener: () => void): () => void
 }
 
+/** Observable connection state; absent until the first generation settles. */
+export interface ConnectionStateSource {
+  /** Current coarse state; absent while the initial handshake is pending. */
+  getSnapshot(): ConnectionState | undefined
+  /** Subscribe to state replacement. */
+  subscribe(listener: () => void): () => void
+}
+
 /** Required services (none — this is the wire root). */
 export const inject: string[] = []
 
@@ -89,8 +97,12 @@ export interface ConnectionHandle {
   readonly isLoopback: boolean
   /** Generation-scoped Host facts, including the account home and native path-open capability. */
   readonly hostDescription: HostDescriptionSource
+  /** Coarse readiness state shared with recovery presentation plugins. */
+  readonly state: ConnectionStateSource
   /** Generic logical RPC channels over the same Connection transport. */
   readonly rpc: ClientConnectionRpc
+  /** Retire the current stream generation and retry immediately. */
+  recover(): void
   /**
    * Start the connect/pump/reconnect loop with the consumer's frame sinks.
    * One consumer owns the streams (the runtime object layer); a second call
@@ -114,8 +126,11 @@ export function apply(ctx: Context): void {
   const api: IApiClient = fixtureClient ?? transport?.createApiClient() ?? new WebApiClient()
   const rpc = fixtureClient?.rpc ?? createWebConnectionRpc(transport?.fetch)
   let started = false
+  let controller: ConnectionController | undefined
   let description: HostDescription | undefined
   const descriptionListeners = new Set<() => void>()
+  let state: ConnectionState | undefined
+  const stateListeners = new Set<() => void>()
   const publishDescription = (next: HostDescription | undefined): void => {
     if (Object.is(description, next)) return
     description = next
@@ -124,6 +139,17 @@ export function apply(ctx: Context): void {
         listener()
       } catch (error) {
         console.error('[web-runtime] host-description listener threw:', error)
+      }
+    }
+  }
+  const publishState = (next: ConnectionState | undefined): void => {
+    if (Object.is(state, next)) return
+    state = next
+    for (const listener of [...stateListeners]) {
+      try {
+        listener()
+      } catch (error) {
+        console.error('[web-runtime] connection-state listener threw:', error)
       }
     }
   }
@@ -137,11 +163,19 @@ export function apply(ctx: Context): void {
         return () => { descriptionListeners.delete(listener) }
       },
     },
+    state: {
+      getSnapshot: () => state,
+      subscribe: (listener) => {
+        stateListeners.add(listener)
+        return () => { stateListeners.delete(listener) }
+      },
+    },
     rpc,
+    recover: () => { controller?.reconnect() },
     start(sinks, config) {
       if (started) throw new Error('connection: the stream loop is already owned by another consumer')
       started = true
-      const controller = new ConnectionController(api, {
+      const nextController = new ConnectionController(api, {
         ...sinks,
         onConnected: (next) => {
           publishDescription(next)
@@ -152,16 +186,20 @@ export function apply(ctx: Context): void {
           if (!Object.is(description, next)) return
           sinks.onConnected?.(next)
         },
-        onStateChange: (state) => {
-          if (state === 'reconnecting') publishDescription(undefined)
-          sinks.onStateChange?.(state)
+        onStateChange: (nextState) => {
+          if (nextState === 'reconnecting') publishDescription(undefined)
+          publishState(nextState)
+          sinks.onStateChange?.(nextState)
         },
       }, config ?? {})
-      controller.start()
+      controller = nextController
+      nextController.start()
       return {
         stop: () => {
-          controller.stop()
+          nextController.stop()
+          if (controller === nextController) controller = undefined
           publishDescription(undefined)
+          publishState(undefined)
         },
       }
     },

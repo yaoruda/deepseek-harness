@@ -1,5 +1,7 @@
 # Open hotel map design
 
+English | [中文](2026-08-20-open-hotel-map-design.zh.md)
+
 ## Outcome
 
 One model tool turns hotel names and addresses into a durable map result. The Web client plots every resolved hotel and, when the caller supplies one destination, shows free driving and public-transport estimates from each hotel. Missing transit coverage does not remove hotel markers or driving results.

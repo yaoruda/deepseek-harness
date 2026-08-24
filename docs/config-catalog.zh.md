@@ -2618,6 +2618,34 @@ export interface Config {
 
 来源：[`packages/goal/tool-goal/src/index.ts:26`](../packages/goal/tool-goal/src/index.ts)
 
+<a id="deepseek-aidsh-tool-hotel-map"></a>
+
+## `@deepseek-ai/dsh-tool-hotel-map`
+
+需要：`tools`
+
+```ts config-catalog
+/** Free-provider endpoints and operational bounds for the hotel map tool. */
+export interface Config {
+  /** Nominatim-compatible geocoding service root URL. */
+  geocoderBaseUrl: string
+  /** OSRM-compatible driving route service root URL. */
+  drivingBaseUrl: string
+  /** Transitous MOTIS-compatible public transport service root URL. */
+  transitBaseUrl: string
+  /** Identifying HTTP User-Agent sent to community providers. */
+  userAgent: string
+  /** Timeout applied independently to each provider request. */
+  requestTimeoutMs: number
+  /** Minimum delay between uncached geocoding requests. */
+  geocodeIntervalMs: number
+  /** Maximum hotels accepted by one tool call. */
+  maxHotels: number
+}
+```
+
+来源：[`packages/travel/tool-hotel-map/src/index.ts:15`](../packages/travel/tool-hotel-map/src/index.ts)
+
 <a id="deepseek-aidsh-tool-jobs"></a>
 
 ## `@deepseek-ai/dsh-tool-jobs`
@@ -3235,12 +3263,14 @@ export interface Config {
 - `@deepseek-ai/dsh-client-ui-attachment`（[`packages/client/ui-attachment/src/index.ts`](../packages/client/ui-attachment/src/index.ts)）
 - `@deepseek-ai/dsh-client-ui-brand-official`（[`packages/client/ui-brand-official/src/index.ts`](../packages/client/ui-brand-official/src/index.ts)）
 - `@deepseek-ai/dsh-client-ui-commands`（[`packages/client/ui-commands/src/index.ts`](../packages/client/ui-commands/src/index.ts)）
+- `@deepseek-ai/dsh-client-ui-connection-recovery`（[`packages/client/ui-connection-recovery/src/index.ts`](../packages/client/ui-connection-recovery/src/index.ts)）
 - `@deepseek-ai/dsh-client-ui-conversation`（[`packages/client/ui-conversation/src/index.ts`](../packages/client/ui-conversation/src/index.ts)）
 - `@deepseek-ai/dsh-client-ui-cordis`（[`packages/extensions/ui-cordis/src/index.ts`](../packages/extensions/ui-cordis/src/index.ts)）
 - `@deepseek-ai/dsh-client-ui-deliverables` — 需要 `systemPrompt`（[`packages/client/ui-deliverables/src/index.ts`](../packages/client/ui-deliverables/src/index.ts)）
 - `@deepseek-ai/dsh-client-ui-directory-picker-browse`（[`packages/client/ui-directory-picker-browse/src/index.ts`](../packages/client/ui-directory-picker-browse/src/index.ts)）
 - `@deepseek-ai/dsh-client-ui-directory-picker-native`（[`packages/client/ui-directory-picker-native/src/index.ts`](../packages/client/ui-directory-picker-native/src/index.ts)）
 - `@deepseek-ai/dsh-client-ui-goal`（[`packages/client/ui-goal/src/index.ts`](../packages/client/ui-goal/src/index.ts)）
+- `@deepseek-ai/dsh-client-ui-hotel-map`（[`packages/client/ui-hotel-map/src/index.ts`](../packages/client/ui-hotel-map/src/index.ts)）
 - `@deepseek-ai/dsh-client-ui-input-trigger`（[`packages/client/ui-input-trigger/src/index.ts`](../packages/client/ui-input-trigger/src/index.ts)）
 - `@deepseek-ai/dsh-client-ui-jobs`（[`packages/client/ui-jobs/src/index.ts`](../packages/client/ui-jobs/src/index.ts)）
 - `@deepseek-ai/dsh-client-ui-layout`（[`packages/client/ui-layout/src/index.ts`](../packages/client/ui-layout/src/index.ts)）

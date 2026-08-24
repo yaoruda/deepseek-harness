@@ -28,7 +28,13 @@ async function json(url: URL, options: ProviderOptions): Promise<unknown> {
   return response.json() as Promise<unknown>
 }
 
-/** Resolve one address through a Nominatim-compatible endpoint. */
+/**
+ * Resolve one address through a Nominatim-compatible endpoint.
+ * @param baseUrl - provider root URL.
+ * @param address - human-readable address to resolve.
+ * @param options - cancellation, timeout, and request identity.
+ * @returns the first finite coordinate, or undefined when none is available.
+ */
 export async function geocode(
   baseUrl: string,
   address: string,
@@ -59,7 +65,14 @@ function coordinateArray(value: unknown): MapCoordinate[] | undefined {
   return result.length >= 2 ? result : undefined
 }
 
-/** Query one OSRM-compatible driving route. */
+/**
+ * Query one OSRM-compatible driving route.
+ * @param baseUrl - provider root URL.
+ * @param from - route origin.
+ * @param to - route destination.
+ * @param options - cancellation, timeout, and request identity.
+ * @returns normalized availability, geometry, duration, and distance.
+ */
 export async function drivingRoute(
   baseUrl: string,
   from: MapCoordinate,
@@ -108,7 +121,15 @@ function decodePolyline(encoded: string, precision: number): MapCoordinate[] {
   return result
 }
 
-/** Query one Transitous MOTIS v6 public-transport itinerary. */
+/**
+ * Query one Transitous MOTIS v6 public-transport itinerary.
+ * @param baseUrl - provider root URL.
+ * @param from - route origin.
+ * @param to - route destination.
+ * @param departureTime - ISO 8601 departure timestamp.
+ * @param options - cancellation, timeout, and request identity.
+ * @returns the normalized first itinerary or an unavailable result.
+ */
 export async function transitRoute(
   baseUrl: string,
   from: MapCoordinate,

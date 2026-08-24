@@ -65,6 +65,77 @@ describe('connection lifecycle', () => {
     expect(api.openMuxCount).toBe(0)
   })
 
+  it('recovers immediately through the owner loop without opening parallel streams', async () => {
+    const api = new FakeApiClient()
+    const states: ConnectionState[] = []
+    let connected = 0
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
+    const controller = new ConnectionController(api, {
+      onConnected: () => { connected++ },
+      onStateChange: state => states.push(state),
+    }, { ...FAST, backoffBaseMs: 10_000, backoffMaxMs: 10_000 })
+
+    // Recovery has no side effect until this controller owns a running loop.
+    controller.reconnect()
+    controller.start()
+    try {
+      await vi.waitFor(() => { expect(connected).toBe(1) })
+      controller.reconnect()
+      await vi.waitFor(() => { expect(connected).toBe(2) })
+      expect(api.openMuxCount).toBe(1)
+      expect(states).toEqual(['connected', 'reconnecting', 'connected'])
+      expect(warnSpy).not.toHaveBeenCalled()
+    } finally {
+      controller.stop()
+      warnSpy.mockRestore()
+    }
+  })
+
+  it('interrupts an active retry delay when recovery is requested', async () => {
+    const api = new FakeApiClient()
+    let connected = 0
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
+    const controller = new ConnectionController(api, { onConnected: () => { connected++ } }, {
+      ...FAST,
+      backoffBaseMs: 10_000,
+      backoffMaxMs: 10_000,
+    })
+    controller.start()
+    try {
+      await vi.waitFor(() => { expect(connected).toBe(1) })
+      api.failStreams(new Error('stream torn'))
+      await vi.waitFor(() => { expect(warnSpy).toHaveBeenCalledTimes(1) })
+      controller.reconnect()
+      await vi.waitFor(() => { expect(connected).toBe(2) })
+      expect(api.openMuxCount).toBe(1)
+    } finally {
+      controller.stop()
+      warnSpy.mockRestore()
+    }
+  })
+
+  it('retires an active retry delay when stopped', async () => {
+    const api = new FakeApiClient()
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => undefined)
+    const controller = new ConnectionController(api, {}, {
+      ...FAST,
+      backoffBaseMs: 10_000,
+      backoffMaxMs: 10_000,
+    })
+    controller.start()
+    try {
+      await vi.waitFor(() => { expect(api.callsOf('host.describe')).toHaveLength(1) })
+      api.failStreams(new Error('stream torn'))
+      await vi.waitFor(() => { expect(warnSpy).toHaveBeenCalledTimes(1) })
+      controller.stop()
+      await vi.waitFor(() => { expect(api.openMuxCount).toBe(0) })
+      expect(api.callsOf('host.describe')).toHaveLength(1)
+    } finally {
+      controller.stop()
+      warnSpy.mockRestore()
+    }
+  })
+
   it('treats describe failure as generation failure and retries', async () => {
     const api = new FakeApiClient()
     const gate = deferred<Awaited<ReturnType<FakeApiClient['onDescribe']>>>()

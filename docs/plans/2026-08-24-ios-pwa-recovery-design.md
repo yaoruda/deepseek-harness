@@ -1,5 +1,7 @@
 # iOS PWA recovery design
 
+English | [中文](2026-08-24-ios-pwa-recovery-design.zh.md)
+
 ## Outcome
 
 The installed Web application gives a person an explicit recovery path when iOS suspends or strands its live connection. Recovery keeps the selected Session and unsent text draft, reconnects without resending input, and escalates to a full reload when a fresh connection generation cannot settle.
