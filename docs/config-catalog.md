@@ -436,6 +436,31 @@ export interface Config {
 
 Source: [`packages/client/hmr/src/index.ts:31`](../packages/client/hmr/src/index.ts)
 
+<a id="deepseek-aidsh-client-ui-skin-presets"></a>
+
+## `@deepseek-ai/dsh-client-ui-skin-presets`
+
+```ts config-catalog
+/** Public plugin configuration type. */
+export interface Config {
+  /** Exact hostname defaults; unknown hosts use Default. */
+  hostnameDefaults?: HostnameSkinDefault[]
+}
+
+/** One deployment hostname and its first-run skin. */
+export interface HostnameSkinDefault {
+  /** Normalized browser hostname without a port. */
+  hostname: string
+  /** Skin used when the browser has no explicit saved choice. */
+  preset: SkinPreset
+}
+
+/** Skin choices exposed by the General settings row. */
+export type SkinPreset = 'default' | 'cyberpunk' | 'morandi'
+```
+
+Source: [`packages/client/ui-skin-presets/src/index.ts:11`](../packages/client/ui-skin-presets/src/index.ts)
+
 <a id="deepseek-aidsh-code-runtime-worker-thread"></a>
 
 ## `@deepseek-ai/dsh-code-runtime-worker-thread`

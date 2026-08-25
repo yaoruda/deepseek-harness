@@ -3,7 +3,8 @@
 // real theme gesture — click 深色 and the whole cascade runs: ThemeRuntime preference -> Host settings
 // -> theme/change -> ui-layout's presenter -> body attribute -> alias token +
 // browser theme-color metadata)
-// the Language row and busy-state Enter preference (both Host-backed), plus
+// the browser-local fixed-skin row, the Language row and busy-state Enter
+// preference (the latter two Host-backed), plus
 // Permission as the persisted default for subsequently created sessions.
 // Zero model calls: everything is pure client + persistence state on a blank
 // frame, so there is no fixture and a stray stream would fail loud on the
@@ -40,7 +41,11 @@ describe('web e2e: settings modal and General preferences', () => {
     browser = await chromium.launch()
     // Chinese browser: the shared page asserts the localized settings surface
     // the client derives from it (the English default has its own spec below).
-    page = await browser.newPage({ viewport: { width: 1680, height: 1000 }, locale: ZH_BROWSER_LOCALE })
+    page = await browser.newPage({
+      viewport: { width: 1680, height: 1000 },
+      locale: ZH_BROWSER_LOCALE,
+      serviceWorkers: 'block',
+    })
     tripwire = watchConsole(page)
     await page.goto(scaffold.baseUrl, { waitUntil: 'load' })
     await page.waitForSelector('[class*="frame"]', { timeout: 30_000 })
@@ -65,6 +70,31 @@ describe('web e2e: settings modal and General preferences', () => {
     await dialog.getByRole('button', { name: 'Workspace Write' }).waitFor({ timeout: 10_000 })
     await expect.poll(() => dialog.getByText('语言', { exact: true }).count(), { timeout: 5_000 }).toBe(1)
     await expect.poll(() => dialog.getByText('外观', { exact: true }).count(), { timeout: 5_000 }).toBe(1)
+    await expect.poll(() => dialog.getByText('界面皮肤', { exact: true }).count(), { timeout: 5_000 }).toBe(1)
+    const cyberpunk = dialog.getByRole('button', { name: /机械未来/ })
+    const morandi = dialog.getByRole('button', { name: /自然莫兰迪/ })
+    const defaultSkin = dialog.getByRole('button', { name: /^默认/ })
+    const initialSkin = await page.evaluate(() => ({
+      skin: document.body.dataset.dshSkin,
+      saved: localStorage.getItem('dsh.skin-preset.v1'),
+      boot: (window as Window & { __DSH_SKIN_PRESETS__?: unknown }).__DSH_SKIN_PRESETS__,
+      base: getComputedStyle(document.body).getPropertyValue('--dsw-alias-bg-base').trim(),
+    }))
+    expect(initialSkin).toEqual({
+      skin: 'cyberpunk',
+      saved: null,
+      boot: {
+        hostnameDefaults: [
+          { hostname: 'assistant.ruda.work', preset: 'cyberpunk' },
+          { hostname: 'localhost', preset: 'cyberpunk' },
+          { hostname: '127.0.0.1', preset: 'cyberpunk' },
+          { hostname: '[::1]', preset: 'cyberpunk' },
+          { hostname: 'ailin.ruda.work', preset: 'morandi' },
+        ],
+      },
+      base: '#050914',
+    })
+    expect(await cyberpunk.getAttribute('aria-pressed')).toBe('true')
     const openDocument = dialog.getByRole('button', { name: '打开配置文件' })
     await openDocument.waitFor({ timeout: 10_000 })
     let openRequests = 0
@@ -92,6 +122,21 @@ describe('web e2e: settings modal and General preferences', () => {
     // Golden of the freshly opened dialog (default zh, General active).
     const snapshot = await captureStableAria(page, '[role="dialog"]', scaffold.workspaceCwd)
     await compareOrRefreshGolden(DIALOG_EXPECTED, snapshot, MODE)
+    await morandi.click()
+    await expect.poll(() => morandi.getAttribute('aria-pressed'), { timeout: 5_000 }).toBe('true')
+    expect(await page.evaluate(() => ({
+      skin: document.body.dataset.dshSkin,
+      saved: localStorage.getItem('dsh.skin-preset.v1'),
+      base: getComputedStyle(document.body).getPropertyValue('--dsw-alias-bg-base').trim(),
+    }))).toEqual({ skin: 'morandi', saved: 'morandi', base: '#f3f1eb' })
+    await cyberpunk.click()
+    await expect.poll(() => cyberpunk.getAttribute('aria-pressed'), { timeout: 5_000 }).toBe('true')
+    await defaultSkin.click()
+    await expect.poll(() => defaultSkin.getAttribute('aria-pressed'), { timeout: 5_000 }).toBe('true')
+    expect(await page.evaluate(() => ({
+      skin: document.body.dataset.dshSkin,
+      saved: localStorage.getItem('dsh.skin-preset.v1'),
+    }))).toEqual({ skin: 'default', saved: 'default' })
     // Section switch: aria-current moves (the Models page itself has its own scenario file).
     await dialog.getByRole('button', { name: '模型' }).click()
     await expect.poll(() => dialog.getByRole('button', { name: '模型' }).getAttribute('aria-current'), { timeout: 5_000 }).toBe('true')

@@ -36,9 +36,14 @@
   - button "深色":
     - img
     - text: 深色
-  - button "跟随系统" [pressed]:
+  - button "跟随系统":
     - img
     - text: 跟随系统
+  - text: 界面皮肤 切换整套页面配色，仅保存在当前浏览器。
+  - group "界面皮肤":
+    - button "默认 跟随原生明暗主题"
+    - button "机械未来 冷黑、青色与紫色光感" [pressed]
+    - button "自然莫兰迪 柔和、清新与低饱和"
   - text: 显示密度 仅影响当前设备上的会话文字和表格。
   - group "显示密度":
     - button "标准" [pressed]

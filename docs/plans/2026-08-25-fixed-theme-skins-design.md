@@ -8,7 +8,7 @@ Add three whole-page skin choices to the Web application: Harness default, Cyber
 
 ## Package ownership
 
-A new client plugin owns the fixed definitions, browser-local preference, hostname default resolver, and General settings row. It registers Cyberpunk and Morandi through `ThemeRuntime.register()` and switches them through `ThemeRuntime.setTheme()`. The existing ui-theme package remains the owner of theme state, DOM presentation, semantic color tokens, and the built-in light, dark, and system preferences.
+A new client plugin owns the fixed definitions, browser-local preference, configurable hostname default resolver, and General settings row. The Web bundle supplies this deployment's hostname mappings. It registers Cyberpunk and Morandi through `ThemeRuntime.register()` and switches them through `ThemeRuntime.setTheme()`. The existing ui-theme package remains the owner of theme state, DOM presentation, semantic color tokens, and the built-in light, dark, and system preferences.
 
 The skin plugin does not import conversation, map, settings, or layout components. Those packages continue to consume semantic `--dsw-*` variables. A small plugin-owned stylesheet may add skin-specific background treatments selected by `body[data-dsh-skin]`; it must not replace component layout or typography rules.
 

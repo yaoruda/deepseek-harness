@@ -36,9 +36,14 @@
   - button "Dark":
     - img
     - text: Dark
-  - button "System" [pressed]:
+  - button "System":
     - img
     - text: System
+  - text: Interface skin Switch the whole-page palette for this browser only.
+  - group "Interface skin":
+    - button "Default Use the native light or dark theme"
+    - button "Cyberpunk Dark machinery with cyan and violet glow" [pressed]
+    - button "Natural Morandi Soft, fresh, and low-saturation"
   - text: Display density Affects conversation text and tables on this device only.
   - group "Display density":
     - button "Standard" [pressed]

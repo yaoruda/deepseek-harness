@@ -2,5 +2,5 @@
 # side as of the last confirmed-consistent state. Both languages carry equal authority;
 # after editing either side, bring the other along and re-record with:
 #   pnpm run verify-translation-pairing --write docs/plans/2026-08-25-fixed-theme-skins-design.md
-2026-08-25-fixed-theme-skins-design.md: 1f4657007c889b1081e1a6ab835393d0dadab848
-2026-08-25-fixed-theme-skins-design.zh.md: 81c17139ce3c58405e3029e991f8b0e9ea8b7da5
+2026-08-25-fixed-theme-skins-design.md: 42ebf62ce4767be892e4380b378f2526d1de4ced
+2026-08-25-fixed-theme-skins-design.zh.md: ef34cfa6a54437128ecdec0c586cc77a7fcb5af2

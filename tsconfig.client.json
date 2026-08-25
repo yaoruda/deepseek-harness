@@ -65,6 +65,7 @@
     { "path": "./packages/client/ui-layout" },
     { "path": "./packages/client/ui-connection-recovery" },
     { "path": "./packages/client/ui-display-density" },
+    { "path": "./packages/client/ui-skin-presets" },
     { "path": "./packages/client/ui-sidebar" },
     { "path": "./packages/client/ui-brand-official" },
     { "path": "./packages/client/ui-conversation" },

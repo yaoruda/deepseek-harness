@@ -65,6 +65,16 @@ describe('ThemeRuntime', () => {
     expect(theme.getTheme().preference).toBe('dark')
   })
 
+  it('keeps an in-process theme active across later Host preference adoption', () => {
+    const { theme, host } = make()
+    theme.register({ id: 'sepia', colorScheme: 'light', tokens: {} })
+    theme.setTheme('sepia')
+    host.publish({ status: 'ready', value: { preference: 'dark' }, revision: 1, writable: true })
+    expect(theme.getTheme().preference).toBe('sepia')
+    theme.setTheme('dark')
+    expect(theme.getTheme().preference).toBe('dark')
+  })
+
   it('throws on unknown setTheme ids, duplicate registration, and the system id', () => {
     const { theme } = make()
     expect(() => { theme.setTheme('sepia') }).toThrow('not registered')

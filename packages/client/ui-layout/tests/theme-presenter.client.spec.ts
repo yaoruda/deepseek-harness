@@ -65,6 +65,21 @@ describe('ThemePresenter', () => {
     expect(document.head.querySelectorAll('meta[name="theme-color"]')).toHaveLength(1)
   })
 
+  it('reuses and restores PWA theme-color metadata', () => {
+    const pwaMeta = document.createElement('meta')
+    pwaMeta.name = 'theme-color'
+    pwaMeta.content = '#ffffff'
+    document.head.append(pwaMeta)
+    const presenter = new ThemePresenter()
+    presenter.apply(snapshot('dark'))
+    expect(themeColorMeta()).toBe(pwaMeta)
+    expect(pwaMeta.content).toBe(DARK_THEME_COLOR)
+    expect(document.head.querySelectorAll('meta[name="theme-color"]')).toHaveLength(1)
+    presenter.dispose()
+    expect(pwaMeta.isConnected).toBe(true)
+    expect(pwaMeta.content).toBe('#ffffff')
+  })
+
   it('applies tokens as inline variables and clears the previous set on theme change', () => {
     const presenter = new ThemePresenter()
     presenter.apply(snapshot('dark', { '--dsw-alias-bg': '#111', '--dsw-alias-fg': '#eee' }))

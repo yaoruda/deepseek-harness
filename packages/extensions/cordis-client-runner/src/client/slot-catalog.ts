@@ -1316,6 +1316,7 @@ export const CLIENT_SLOT_API: readonly ClientSlotEntry[] = [
       'client-ui-conversation EnterBehaviorRow id \'composer-enter\'',
       'client-ui-display-density DisplayDensityRow id \'display-density\'',
       'client-ui-permission-presets PermissionRow id \'permission\'',
+      'client-ui-skin-presets SkinPresetRow id \'skin-presets\'',
       'client-ui-theme AppearanceRow id \'appearance\'',
     ],
     replaceRisk: 'none',

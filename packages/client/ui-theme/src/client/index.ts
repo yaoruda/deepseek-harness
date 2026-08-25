@@ -22,7 +22,7 @@ import { installThemeStyles } from './styles.ts'
 import { en, zh, type ThemeKey } from './locales.ts'
 import {
   DEFAULT_PREFERENCE, isThemePreference, THEME_PREFERENCE_FIELD, THEME_SETTINGS_NAMESPACE,
-  type ThemePreference, type ThemeSettings,
+  type ThemeSettings,
 } from '../theme-settings.ts'
 
 export type { AppearanceRowComponentProps, AppearanceRowInjected } from './AppearanceRow.tsx'
@@ -73,8 +73,8 @@ export interface ThemeDefinition {
 
 /** Immutable theme state published on every change. */
 export interface ThemeSnapshot {
-  /** The persisted preference (may be `system`). */
-  preference: ThemePreference
+  /** Active preference id: a built-in persisted choice or a registered in-process theme. */
+  preference: string
   /**
    * The resolved active theme (`system` resolved via prefers-color-scheme)
    * with override layers folded into its tokens (seq order, later layers win
@@ -152,7 +152,7 @@ export class ThemeRuntime {
   private readonly ctx: Context
   private readonly host: SettingsScope<ThemeSettings>
   private themes: ThemeDefinition[] = [...BUILTIN_THEMES]
-  private preference: ThemePreference
+  private preference: string
   private revision = 0
   private snapshot: ThemeSnapshot
   private readonly media: MediaQueryList | undefined
@@ -225,7 +225,7 @@ export class ThemeRuntime {
       throw new Error(`theme "${id}" is not registered`)
     }
     if (this.preference === id) return
-    this.preference = id as ThemePreference
+    this.preference = id
     if (isThemePreference(id)) void this.host.set(THEME_PREFERENCE_FIELD, id)
     this.publish()
   }
@@ -233,6 +233,7 @@ export class ThemeRuntime {
   /** Adopt the scope's accepted durable preference without writing it back. */
   private adopt(): void {
     const section = this.host.getSnapshot().value
+    if (!isThemePreference(this.preference)) return
     if (section === undefined || this.preference === section.preference) return
     this.preference = section.preference
     this.publish()

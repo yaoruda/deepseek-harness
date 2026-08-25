@@ -206,6 +206,21 @@
     - id: ui-display-density
       name: '@deepseek-ai/dsh-client-ui-display-density'
 
+    - id: ui-skin-presets
+      name: '@deepseek-ai/dsh-client-ui-skin-presets'
+      config:
+        hostnameDefaults:
+          - hostname: assistant.ruda.work
+            preset: cyberpunk
+          - hostname: localhost
+            preset: cyberpunk
+          - hostname: 127.0.0.1
+            preset: cyberpunk
+          - hostname: '[::1]'
+            preset: cyberpunk
+          - hostname: ailin.ruda.work
+            preset: morandi
+
     - id: ui-settings-models
       name: '@deepseek-ai/dsh-client-ui-settings-models'
 
