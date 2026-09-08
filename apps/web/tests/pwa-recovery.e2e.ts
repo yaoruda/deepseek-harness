@@ -14,7 +14,7 @@ import {
 } from './scaffold.ts'
 import { saveFailureShot } from './support.ts'
 
-const FIXTURE = fileURLToPath(new URL('./snapshots/fresh-round-trip/session.jsonl', import.meta.url))
+const FIXTURE = fileURLToPath(new URL('../../../snapshots/web/fresh-round-trip/session.jsonl', import.meta.url))
 const SNAPSHOT_DIR = fileURLToPath(new URL('./snapshots/pwa-recovery', import.meta.url))
 const OUTAGE_EXPECTED = join(SNAPSHOT_DIR, 'outage.expected.md')
 const MODE = webSnapshotMode()
