@@ -26,7 +26,7 @@ import { en, zh, type ThemeKey } from './locales.ts'
 import {
   DEFAULT_FONT_SIZE, DEFAULT_PREFERENCE, FONT_SIZE_FIELD, FONT_SIZE_MAX, FONT_SIZE_MIN,
   isThemePreference, THEME_PREFERENCE_FIELD, THEME_SETTINGS_NAMESPACE,
-  type ThemePreference, type ThemeSettings,
+  type ThemeSettings,
 } from '../theme-settings.ts'
 
 export type { AppearanceRowComponentProps, AppearanceRowInjected } from './AppearanceRow.tsx'
@@ -78,8 +78,8 @@ export interface ThemeDefinition {
 
 /** Immutable theme state published on every change. */
 export interface ThemeSnapshot {
-  /** The persisted preference (may be `system`). */
-  preference: ThemePreference
+  /** Active preference id: a built-in persisted choice or a registered in-process theme. */
+  preference: string
   /** Conversation content font size in px (integer within FONT_SIZE_MIN..FONT_SIZE_MAX). */
   fontSize: number
   /**
@@ -159,7 +159,7 @@ export class ThemeRuntime {
   private readonly ctx: ClientContext
   private readonly host: SettingsScope<ThemeSettings>
   private themes: ThemeDefinition[] = [...BUILTIN_THEMES]
-  private preference: ThemePreference
+  private preference: string
   private fontSize: number = bootstrapFontSize()
   private revision = 0
   private snapshot: ThemeSnapshot
@@ -233,7 +233,7 @@ export class ThemeRuntime {
       throw new Error(`theme "${id}" is not registered`)
     }
     if (this.preference === id) return
-    this.preference = id as ThemePreference
+    this.preference = id
     if (isThemePreference(id)) void this.host.set(THEME_PREFERENCE_FIELD, id)
     this.publish()
   }
@@ -258,8 +258,9 @@ export class ThemeRuntime {
   private adopt(): void {
     const section = this.host.getSnapshot().value
     if (section === undefined) return
-    if (this.preference === section.preference && this.fontSize === section.fontSize) return
-    this.preference = section.preference
+    const preference = isThemePreference(this.preference) ? section.preference : this.preference
+    if (preference === this.preference && this.fontSize === section.fontSize) return
+    this.preference = preference
     this.fontSize = section.fontSize
     this.publish()
   }

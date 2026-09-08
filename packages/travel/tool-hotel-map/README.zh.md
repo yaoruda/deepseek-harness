@@ -1,19 +1,40 @@
+---
+description: "基于免费服务的酒店地址解析与路线比较工具，生成完整的持久化地图事件。"
+kind: "package-reference"
+---
+
 # @deepseek-ai/dsh-tool-hotel-map
 
 [English](README.md) | 中文
 
+## 概述
+
 使用免费服务为具备所属 Agent 会话的调用生成酒店地址地图。插件注册 `hotel_map`，解析有上限的酒店列表，可选地比较每家已定位酒店到一个目的地的路线，并在所有服务请求结束后追加一条完整的 `travel-map/show` 事件。
+
+## 目录
+
+- [配置](#configuration)
+- [结果与持久化](#result-and-durability)
+- [模型体验](#model-experience)
+- [已知限制与延后工作](#known-limitations-and-deferred-work)
+- [开发备注](#dev-note)
+
+-----
+
+<a id="configuration"></a>
 
 ## 配置
 
 `userAgent` 为必填项，必须标识部署及联系网址或地址。`geocoderBaseUrl`、`drivingBaseUrl` 和 `transitBaseUrl` 分别选择兼容 Nominatim、OSRM 和 Transitous MOTIS 的服务。`requestTimeoutMs`、`geocodeIntervalMs` 和 `maxHotels` 限制网络工作量。随附组合使用适合低频调用的社区端点；高频部署应将这些字段指向自建服务。
 
+<a id="result-and-durability"></a>
 ## 结果与持久化
 
 地址解析或路线查询失败时，对应酒店仍保留在结果中。路线状态区分有效行程（`available`）、没有可用行程（`unavailable`）和服务失败（`failed`）。事件保存标点、路线几何、时长、距离、诊断和署名，因此历史重放不会再次请求服务。
 
 地址解析串行执行，遵守配置的调用间隔，并在进程内缓存成功坐标。每个请求都携带取消信号、超时和配置的 User-Agent。服务凭据和不受限的原始响应不会持久化。
 
+<a id="model-experience"></a>
 ## 模型体验
 
 ### `hotel_map` 工具
@@ -32,7 +53,14 @@
 
 ## 已知限制与延后工作
 
+<a id="known-limitations-and-deferred-work"></a>
+
 - **社区服务容量** — 公共默认服务按尽力原则提供，要求署名，不适合未经协调的高频使用。
 - **开放数据覆盖** — 公交依赖公开时刻表；`unavailable` 并不能证明当地没有公共交通。
 - **进程内地址缓存** — 重启会丢失缓存坐标；需要持久去重的部署必须增加服务端缓存。
 - **不含酒店交易数据** — 工具接收已知酒店，不搜索价格、库存、可订状态、图片或预订。
+
+<a id="dev-note"></a>
+### 开发备注
+
+无。

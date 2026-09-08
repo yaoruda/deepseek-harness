@@ -356,6 +356,31 @@ export interface Config {
 
 Source: [`packages/client/hmr/src/index.ts:31`](../packages/client/hmr/src/index.ts)
 
+<a id="deepseek-aidsh-client-ui-skin-presets"></a>
+
+## `@deepseek-ai/dsh-client-ui-skin-presets`
+
+```ts config-catalog
+/** Public plugin configuration type. */
+export interface Config {
+  /** Exact hostname defaults; unknown hosts use Default. */
+  hostnameDefaults?: HostnameSkinDefault[]
+}
+
+/** One deployment hostname and its first-run skin. */
+export interface HostnameSkinDefault {
+  /** Normalized browser hostname without a port. */
+  hostname: string
+  /** Skin used when the browser has no explicit saved choice. */
+  preset: SkinPreset
+}
+
+/** Skin choices exposed by the General settings row. */
+export type SkinPreset = 'default' | 'cyberpunk' | 'morandi'
+```
+
+Source: [`packages/client/ui-skin-presets/src/index.ts:11`](../packages/client/ui-skin-presets/src/index.ts)
+
 <a id="deepseek-aidsh-code-runtime-worker-thread"></a>
 
 ## `@deepseek-ai/dsh-code-runtime-worker-thread`
@@ -2725,6 +2750,34 @@ export interface Config {
 
 Source: [`packages/goal/tool-goal/src/index.ts:25`](../packages/goal/tool-goal/src/index.ts)
 
+<a id="deepseek-aidsh-tool-hotel-map"></a>
+
+## `@deepseek-ai/dsh-tool-hotel-map`
+
+Requires: `tools`
+
+```ts config-catalog
+/** Free-provider endpoints and operational bounds for the hotel map tool. */
+export interface Config {
+  /** Base URL of a Nominatim-compatible geocoder. */
+  geocoderBaseUrl: string
+  /** Base URL of an OSRM-compatible driving router. */
+  drivingBaseUrl: string
+  /** Base URL of a Transitous MOTIS v6-compatible transit router. */
+  transitBaseUrl: string
+  /** Identifying User-Agent sent to every community provider request. */
+  userAgent: string
+  /** Per-provider request timeout in milliseconds. */
+  requestTimeoutMs: number
+  /** Minimum interval between serialized geocoder requests in milliseconds. */
+  geocodeIntervalMs: number
+  /** Maximum hotel count accepted by one tool call. */
+  maxHotels: number
+}
+```
+
+Source: [`packages/travel/tool-hotel-map/src/index.ts:15`](../packages/travel/tool-hotel-map/src/index.ts)
+
 <a id="deepseek-aidsh-tool-jobs"></a>
 
 ## `@deepseek-ai/dsh-tool-jobs`
@@ -3347,12 +3400,14 @@ These load from a `cordis.yml` entry with no `config:` block; they declare no co
 - `@deepseek-ai/dsh-client-ui-brand-official` ([`packages/client/ui-brand-official/src/index.ts`](../packages/client/ui-brand-official/src/index.ts))
 - `@deepseek-ai/dsh-client-ui-chat` ([`packages/client/ui-chat/src/index.ts`](../packages/client/ui-chat/src/index.ts))
 - `@deepseek-ai/dsh-client-ui-commands` ([`packages/client/ui-commands/src/index.ts`](../packages/client/ui-commands/src/index.ts))
+- `@deepseek-ai/dsh-client-ui-connection-recovery` ([`packages/client/ui-connection-recovery/src/index.ts`](../packages/client/ui-connection-recovery/src/index.ts))
 - `@deepseek-ai/dsh-client-ui-conversation` ([`packages/client/ui-conversation/src/index.ts`](../packages/client/ui-conversation/src/index.ts))
 - `@deepseek-ai/dsh-client-ui-cordis` ([`packages/extensions/ui-cordis/src/index.ts`](../packages/extensions/ui-cordis/src/index.ts))
 - `@deepseek-ai/dsh-client-ui-deliverables` — requires `systemPrompt` ([`packages/client/ui-deliverables/src/index.ts`](../packages/client/ui-deliverables/src/index.ts))
 - `@deepseek-ai/dsh-client-ui-directory-picker-browse` ([`packages/client/ui-directory-picker-browse/src/index.ts`](../packages/client/ui-directory-picker-browse/src/index.ts))
 - `@deepseek-ai/dsh-client-ui-directory-picker-native` ([`packages/client/ui-directory-picker-native/src/index.ts`](../packages/client/ui-directory-picker-native/src/index.ts))
 - `@deepseek-ai/dsh-client-ui-goal` ([`packages/client/ui-goal/src/index.ts`](../packages/client/ui-goal/src/index.ts))
+- `@deepseek-ai/dsh-client-ui-hotel-map` ([`packages/client/ui-hotel-map/src/index.ts`](../packages/client/ui-hotel-map/src/index.ts))
 - `@deepseek-ai/dsh-client-ui-input-trigger` ([`packages/client/ui-input-trigger/src/index.ts`](../packages/client/ui-input-trigger/src/index.ts))
 - `@deepseek-ai/dsh-client-ui-jobs` ([`packages/client/ui-jobs/src/index.ts`](../packages/client/ui-jobs/src/index.ts))
 - `@deepseek-ai/dsh-client-ui-layout` ([`packages/client/ui-layout/src/index.ts`](../packages/client/ui-layout/src/index.ts))

@@ -1,8 +1,8 @@
 # Agent Note: 开放酒店地图节点
 
-[English](2026-08-20-open-hotel-map-node.md) | 中文
-
 Status: implemented
+
+[English](2026-08-20-open-hotel-map-node.md) | 中文
 
 ## 问题
 

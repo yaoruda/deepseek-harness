@@ -4,10 +4,11 @@
   top: max(10px, env(safe-area-inset-top));
   right: max(10px, env(safe-area-inset-right));
   box-sizing: border-box;
-  border: 1px solid var(--dsw-alias-border-l2);
+  --dsw-elevation-stroke-color: var(--dsw-alias-border-l2);
+  border: 0;
   background: var(--dsw-alias-button-floating-fill);
   color: var(--dsw-alias-label-primary);
-  box-shadow: var(--dsw-shadow-lv2);
+  box-shadow: var(--dsw-elevation-panel);
 }
 
 .compact {
@@ -18,6 +19,7 @@
   height: 44px;
   padding: 0;
   border-radius: 50%;
+  corner-shape: round;
   cursor: pointer;
 }
 

@@ -22,7 +22,9 @@ const PATTERNS = [
   'docs/**/*.md',
   'packages/*/*.md',
   'packages/*/*/*.md',
-  'snapshots/**/system-prompt.expected.md',
+  // Snapshot scenarios have one surface and one case directory. The fixed
+  // depth also avoids Node 25 following a file symlink as a recursive glob root.
+  'snapshots/*/*/system-prompt.expected.md',
   'packages/**/system-prompt.expected.md',
   'AGENTS.md',
   'packages/AGENTS.md',

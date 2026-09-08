@@ -1,12 +1,29 @@
+---
+description: "面向窄屏浏览器和已安装 Web App 的连接恢复界面，包括重连与整页刷新行为。"
+kind: "package-reference"
+---
+
 # @deepseek-ai/dsh-client-ui-connection-recovery
 
 [English](README.md) | 中文
+
+## 概述
 
 面向窄屏浏览器和已安装 Web App 的全局连接恢复界面。它观察共享连接控制器，在传输中断时展开重连提示，并仅在逻辑重连持续未恢复后显示整页刷新。窄屏和独立显示模式在连接正常时保留一个 44 像素的紧凑恢复按钮。
 
 页面从较长时间的后台状态返回时会先淘汰现有连接代次，再执行重连。控制器仍然是两条传输流的唯一所有者，因此连续点击不会创建并行 WebSocket 连接。整页刷新会从现有运行时负责的浏览器存储恢复当前会话和文字草稿；只存在内存中的图片草稿无法跨文档刷新保留。
 
 这个包不存储会话或消息内容。它注册一个 `shell.overlay` 条目，并随 Cordis fiber 一起移除该条目和文档生命周期监听器。
+
+## 目录
+
+- [模型体验](#model-experience)
+- [已知限制与延期工作](#known-limitations-and-deferred-work)
+- [开发备注](#dev-note)
+
+-----
+
+<a id="model-experience"></a>
 
 ## 模型体验
 
@@ -18,7 +35,14 @@
 
 ## 已知限制与延期工作
 
+<a id="known-limitations-and-deferred-work"></a>
+
 - Service Worker 不会让 agent 工作、历史、工具或模型调用支持离线使用。
 - 整页刷新可以保留文字草稿，但不能保留只存在运行时中的图片附件。
 - iOS 仍可能终止 Web App 进程；恢复只能在用户重新打开应用后开始。
 - 缓存格式变化需要使用新的 Service Worker cache 名称。
+
+<a id="dev-note"></a>
+### 开发备注
+
+无。

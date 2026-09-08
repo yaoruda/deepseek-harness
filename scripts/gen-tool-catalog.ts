@@ -52,6 +52,7 @@ import * as ToolStrReplaceEditor from '@deepseek-ai/dsh-tool-str-replace-editor'
 import TerminalSessionService from '@deepseek-ai/dsh-terminal'
 import * as ToolPty from '@deepseek-ai/dsh-tool-terminal'
 import * as ToolGoal from '@deepseek-ai/dsh-tool-goal'
+import * as ToolHotelMap from '@deepseek-ai/dsh-tool-hotel-map'
 import * as ToolSchedule from '@deepseek-ai/dsh-schedule'
 import Lsp from '@deepseek-ai/dsh-lsp'
 import * as ToolLsp from '@deepseek-ai/dsh-tool-lsp'
@@ -393,6 +394,26 @@ const TOOL_PACKAGES: ToolPackage[] = [
       + 'Version 1 accepts after_seconds, explicit absolute at, and bounded fixed-rate every_seconds, '
       + 'and discloses session-local delivery; '
       + 'management reads and mutations require the shared Session persistence barrier.',
+  },
+  {
+    pkg: '@deepseek-ai/dsh-tool-hotel-map',
+    dir: 'tool-hotel-map',
+    source: 'packages/travel/tool-hotel-map/src/index.ts',
+    requires: ['ctx.tools', 'a calling Agent with an owning Session at execution time'],
+    writes: ['tool/call', 'travel-map/show after provider work settles', 'tool/result'],
+    async mount(ctx) {
+      await ctx.plugin(ToolHotelMap, {
+        geocoderBaseUrl: 'https://nominatim.openstreetmap.org/',
+        drivingBaseUrl: 'https://router.project-osrm.org/',
+        transitBaseUrl: 'https://api.transitous.org/',
+        userAgent: 'deepseek-harness-tool-catalog',
+        requestTimeoutMs: 20_000,
+        geocodeIntervalMs: 1_100,
+        maxHotels: 20,
+      })
+    },
+    note:
+      'The tool geocodes known hotel addresses and optionally compares each resolved hotel with one destination; it does not search hotel prices, availability, photos, or bookings.',
   },
   {
     pkg: '@deepseek-ai/dsh-tool-lsp',

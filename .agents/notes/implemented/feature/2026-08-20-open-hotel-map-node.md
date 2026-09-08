@@ -1,8 +1,8 @@
 # Agent Note: Open hotel map node
 
-English | [中文](2026-08-20-open-hotel-map-node.zh.md)
-
 Status: implemented
+
+English | [中文](2026-08-20-open-hotel-map-node.zh.md)
 
 ## Problem
 
