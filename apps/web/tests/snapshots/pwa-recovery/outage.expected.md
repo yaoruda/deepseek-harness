@@ -1,0 +1,4 @@
+- status:
+  - img
+  - text: Connection lost. Recovering…
+  - button "Reconnect now"

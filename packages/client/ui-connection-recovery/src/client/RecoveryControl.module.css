@@ -1,0 +1,80 @@
+.compact,
+.notice {
+  position: absolute;
+  top: max(10px, env(safe-area-inset-top));
+  right: max(10px, env(safe-area-inset-right));
+  box-sizing: border-box;
+  border: 1px solid var(--dsw-alias-border-l2);
+  background: var(--dsw-alias-button-floating-fill);
+  color: var(--dsw-alias-label-primary);
+  box-shadow: var(--dsw-shadow-lv2);
+}
+
+.compact {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.compact:hover,
+.compact:focus-visible,
+.action:hover,
+.action:focus-visible {
+  background: var(--dsw-alias-button-floating-hover);
+}
+
+.notice {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  max-width: calc(100vw - 20px - env(safe-area-inset-left) - env(safe-area-inset-right));
+  padding: 6px 8px 6px 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  line-height: 20px;
+}
+
+.action {
+  min-height: 32px;
+  padding: 4px 9px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--dsw-alias-fill-l2);
+  color: inherit;
+  font: inherit;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.spinning {
+  flex: none;
+  animation: spin 1.2s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 720px), (display-mode: standalone), (display-mode: fullscreen) {
+  .compact { display: inline-flex; }
+}
+
+@media (max-width: 480px) {
+  .notice {
+    left: max(10px, env(safe-area-inset-left));
+    right: max(10px, env(safe-area-inset-right));
+    justify-content: flex-start;
+  }
+
+  .notice span { flex: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinning { animation: none; }
+}

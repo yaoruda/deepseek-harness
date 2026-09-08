@@ -1,0 +1,6 @@
+# Bilingual-pair consistency record (docs/i18n/README.md): the git blob hash of each
+# side as of the last confirmed-consistent state. Both languages carry equal authority;
+# after editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write .agents/notes/implemented/feature/2026-08-24-pwa-connection-recovery.md
+2026-08-24-pwa-connection-recovery.md: c8b3938323af2111277b5c5bcbcdf7f6c10eb115
+2026-08-24-pwa-connection-recovery.zh.md: 29b79b0655878d6c2201b62cba603f3d8abb1d84
