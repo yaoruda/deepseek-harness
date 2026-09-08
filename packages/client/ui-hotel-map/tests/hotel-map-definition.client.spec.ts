@@ -17,7 +17,7 @@ describe('hotel map Conversation Definition', () => {
     const match = hotelMapDefinition.match(event)
     expect(match).toEqual({ id: 'map-1', role: 'start' })
     const state = hotelMapDefinition.start({} as never, {
-      type: 'event', event, role: 'start', location: { kind: 'unresolved' },
+      event, role: 'start', location: { kind: 'unresolved' },
     }, {} as never)
     expect(state).toBe(data)
   })
