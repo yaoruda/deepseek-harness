@@ -33,7 +33,7 @@ describe.skipIf(MODE === 'record')('web e2e: PWA connection recovery', () => {
     browser = await chromium.launch()
     browserContext = await browser.newContext({ viewport: { width: 390, height: 844 }, locale: 'en-US' })
     page = await browserContext.newPage()
-    await page.goto(scaffold.baseUrl, { waitUntil: 'load' })
+    await page.goto(scaffold.authenticatedUrl, { waitUntil: 'load' })
     await page.waitForSelector('[class*="frame"]', { timeout: 30_000 })
   }, 120_000)
 
@@ -70,15 +70,16 @@ describe.skipIf(MODE === 'record')('web e2e: PWA connection recovery', () => {
     const session = page.locator('[role="treeitem"]').nth(1)
     await session.waitFor({ timeout: 10_000 })
     await session.click()
+    await page.getByRole('button', { name: 'Collapse sidebar' }).click()
 
-    const composer = page.getByRole('textbox', { name: 'Message the agent' })
+    const composer = page.getByRole('textbox', { name: 'Message or run a task... / commands, @ files or sessions' })
     await composer.waitFor({ timeout: 15_000 })
     await composer.fill(DRAFT)
     await page.reload({ waitUntil: 'load' })
 
-    const restored = page.getByRole('textbox', { name: 'Message the agent' })
+    const restored = page.getByRole('textbox', { name: 'Message or run a task... / commands, @ files or sessions' })
     await restored.waitFor({ timeout: 20_000 })
-    await expect.poll(() => restored.inputValue()).toBe(DRAFT)
+    await expect.poll(() => restored.textContent()).toBe(DRAFT)
   }, 60_000)
 
   it('keeps its snapshot inventory closed', async () => {
